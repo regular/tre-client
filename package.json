@@ -1,0 +1,17 @@
+{
+  "name": "tre-client",
+  "version": "1.0.0",
+  "description": "client library for tre (browser client and sbot plugin)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ['tre', 'ssb'],
+  "author": "Jan Bölsche <jan@lagomorph.de> (https://regular.codes/)",
+  "license": "ISC",
+  "dependencies": {
+    "multicb": "^1.2.2",
+    "ssb-client": "^4.6.0",
+    "ssb-keys": "^7.1.3"
+  }
+}
