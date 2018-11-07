@@ -1,6 +1,6 @@
 {
   "name": "tre-client",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "client library for tre (browser client and sbot plugin)",
   "main": "index.js",
   "scripts": {
