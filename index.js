@@ -39,6 +39,20 @@ module.exports.client = function(cb) {
       ssb.whoami( (err, feed) => {
         if (err) return cb(err)
         console.log('pub key', feed.id)
+
+        // add ssb.revisions.patch
+        if (ssb.revisions) {
+          ssb.revisions.patch = function(oldRev, patchFunc, cb) {
+            ssb.get(oldRev, (err, msg)=>{
+              if (err) return cb(err)
+              let content = patchFunc(msg.content)
+              if (content == undefined) content = msg.content // patched in-place
+              content.revisionBranch = oldRev
+              content.revisionRoot = content.revisionRoot || oldRev
+              ssb.publish(content, cb)
+            })
+          }
+        }
         cb(null, ssb, config)
       }) 
     })
