@@ -1,6 +1,7 @@
 const ssbClient = require('ssb-client')
 const ssbKeys = require('ssb-keys')
 const multicb = require('multicb')
+const pull = require('pull-stream')
 
 function client(keys, caps, remote, cb) {
   function _client(keys, caps, remote, manifest, cb) {
@@ -39,6 +40,33 @@ module.exports.client = function(cb) {
       ssb.whoami( (err, feed) => {
         if (err) return cb(err)
         console.log('pub key', feed.id)
+
+        // add ssb.revisions.get
+        if (ssb.revisions) {
+          ssb.revisions.get = function(key, cb) {
+            pull(
+              ssb.revisions.heads(key, {
+                keys: true,
+                values: true,
+                seqs: true,
+                meta: true,
+                maxHeads: 1
+              }),
+              pull.collect((err, items) => {
+                console.log('GOT', items)
+                if (err) return cb(err)
+                if (!items.length) return cb(new Error(`key not found: ${key}`))
+                const head = items[0].heads[0]
+                cb(null, {
+                  key: head.key, 
+                  value: head.value, 
+                  seq: head.seq, 
+                  meta: items[0].meta
+                })
+              })
+            )
+          }
+        }
 
         // add ssb.revisions.patch
         if (ssb.revisions) {
@@ -86,5 +114,6 @@ exports.init = function (ssb, config) {
       res.end(ws_address)
       return
     }
+    next()
   })
 }
