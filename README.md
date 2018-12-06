@@ -16,6 +16,8 @@ client( (err, ssb, config) => {
 })
 ```
 
+> Note: tre-client assumes that your sbot configuration is in a file called `.trerc` in your project's home directory (next to package.json).
+
 ## Install
 
 ```
