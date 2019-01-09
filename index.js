@@ -94,7 +94,6 @@ exports.manifest = {
 }
 exports.init = function (ssb, config) {
   const ws_address = JSON.stringify(ssb.ws.getAddress())
-  const config_path = config.config
   const data_path = config.path 
   const r = require
   const fs = r('fs')
@@ -106,7 +105,10 @@ exports.init = function (ssb, config) {
     const u = url.parse('http://makeurlparseright.com'+req.url)
     if (u.pathname == '/.trerc') {
       res.setHeader('Content-Type', 'application/json')
-      fs.createReadStream(config_path).pipe(res)
+      res.end(JSON.stringify({
+        caps: config.caps, // TODO: this leaks appKey to the public 
+        tre: config.tre
+      }, null, 2))
       return
     }
     if (u.pathname == '/.tre/ws-address') {
