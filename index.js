@@ -43,28 +43,30 @@ module.exports.client = function(cb) {
 
         // add ssb.revisions.get
         if (ssb.revisions) {
-          ssb.revisions.get = function(key, cb) {
-            pull(
-              ssb.revisions.heads(key, {
-                keys: true,
-                values: true,
-                seqs: true,
-                meta: true,
-                maxHeads: 1
-              }),
-              pull.collect((err, items) => {
-                console.log('GOT', items)
-                if (err) return cb(err)
-                if (!items.length) return cb(new Error(`key not found: ${key}`))
-                const head = items[0].heads[0]
-                cb(null, {
-                  key: head.key, 
-                  value: head.value, 
-                  seq: head.seq, 
-                  meta: items[0].meta
+          if (!ssb.revisions.get) {
+            ssb.revisions.get = function(key, cb) {
+              pull(
+                ssb.revisions.heads(key, {
+                  keys: true,
+                  values: true,
+                  seqs: true,
+                  meta: true,
+                  maxHeads: 1
+                }),
+                pull.collect((err, items) => {
+                  console.log('GOT', items)
+                  if (err) return cb(err)
+                  if (!items.length) return cb(new Error(`key not found: ${key}`))
+                  const head = items[0].heads[0]
+                  cb(null, {
+                    key: head.key, 
+                    value: head.value, 
+                    seq: head.seq, 
+                    meta: items[0].meta
+                  })
                 })
-              })
-            )
+              )
+            }
           }
         }
 
