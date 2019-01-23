@@ -41,8 +41,6 @@ module.exports.client = function(cb) {
         if (err) return cb(err)
         console.log('pub key', feed.id)
 
-        }
-
         // add ssb.revisions.patch
         if (ssb.revisions) {
           ssb.revisions.patch = function(oldRev, patchFunc, cb) {
