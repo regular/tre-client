@@ -19,7 +19,7 @@ function client(keys, caps, remote, cb) {
 }
 
 function get(url, opts, cb) {
-  fetch(url)
+  fetch(url, opts)
     .then(r => r.json())
     .then(j => cb(null, j))
     .catch( e => cb(e))
