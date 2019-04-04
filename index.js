@@ -29,7 +29,7 @@ module.exports.client = function(cb) {
   const keys = ssbKeys.loadOrCreateSync('tre-keypair')
   const done = multicb({pluck:1, spread: true})
 
-  get(document.location.origin + '/.trerc', {credentials: 'same-origin'}, done())
+  get(document.location.origin + '/.trerc?dontcache=' + Date.now(), {credentials: 'same-origin'}, done())
   get(document.location.origin + '/.tre/ws-address', {}, done())
   done( (err, config, remote) => {
     if (err) return cb(err)
