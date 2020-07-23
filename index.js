@@ -1,5 +1,4 @@
 const ssbClient = require('ssb-client')
-const ssbKeys = require('ssb-keys')
 const multicb = require('multicb')
 const pull = require('pull-stream')
 
@@ -26,7 +25,7 @@ function get(url, opts, cb) {
 }
 
 module.exports.client = function(cb) {
-  const keys = ssbKeys.loadOrCreateSync('tre-keypair')
+  const keys = loadKeys('tre-keypair')
   const done = multicb({pluck:1, spread: true})
 
   get(document.location.origin + '/.trerc?dontcache=' + Date.now(), {credentials: 'same-origin'}, done())
@@ -58,6 +57,11 @@ module.exports.client = function(cb) {
       }) 
     })
   })
+}
+
+function loadKeys(name) {
+  const json = sessionStorage[name] || localStorage[name]
+  return JSON.parse(json)
 }
 
 // sbot plugin interface
