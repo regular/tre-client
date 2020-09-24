@@ -1,8 +1,9 @@
 {
   "name": "tre-client",
   "version": "3.1.0",
-  "description": "client library for tre (browser client and sbot plugin)",
+  "description": "ssb-client for tre (browser client and sbot plugin)",
   "main": "index.js",
+  "browser": "browser.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,10 +13,13 @@
     "ssb-revisions"
   ],
   "author": "Jan Bölsche <jan@lagomorph.de> (https://regular.codes/)",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "multicb": "^1.2.2",
-    "ssb-client": "^4.9.0"
+    "pull-reconnect": "0.0.3",
+    "ssb-client": "^4.9.0",
+    "traverse": "^0.6.6",
+    "wrap-muxrpc-api": "^1.0.0"
   },
   "devDependencies": {},
   "repository": {
