@@ -32,11 +32,11 @@ function client(keys, caps, remote, cb) {
           })
           debug('connected')
           currSSB = ssb
+          reconnect(null)
           if (0 == reconnects++) {
             // first time successfully connected
             cb(null, wrap(ssb, reconnect))
           }
-          reconnect(null)
         })
       }
 
