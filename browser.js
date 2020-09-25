@@ -13,7 +13,7 @@ function client(keys, caps, remote, cb) {
     if (err) return cb(err)
     ssb.manifest( (err, manifest) => {
       if (err) return cb(err)
-      debug('received manifest')
+      debug('received manifest %o', manifest)
       
       let currSSB = null
       let reconnects = 0
