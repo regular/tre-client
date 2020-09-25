@@ -3,6 +3,7 @@ const multicb = require('multicb')
 const Reconnect = require('pull-reconnect')
 const wrapAPI = require('wrap-muxrpc-api')
 const debug = require('debug')('tre-client')
+const traverse = require('traverse')
 
 function client(keys, caps, remote, cb) {
   function _client(keys, caps, remote, manifest, cb) {
