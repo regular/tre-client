@@ -41,6 +41,7 @@ function client(keys, caps, remote, cb) {
 
       function wrap(ssb, reconnect) {
         return wrapAPI(ssb, manifest, function(fn, type, path) {
+          if (type == 'sync') type = 'async'
           if (!reconnect[type]) {
             const msg = `${type} not supported by pull-reconnect (${path.join(',')})`
             console.error(msg)
