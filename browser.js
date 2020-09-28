@@ -4,6 +4,8 @@ const Reconnect = require('pull-reconnect')
 const wrapAPI = require('wrap-muxrpc-api')
 const debug = require('debug')('tre-client')
 const traverse = require('traverse')
+const filterError = require('pull-catch')
+const doRetry = require('./worth-a-retry')
 
 function client(keys, caps, remote, cb) {
   function _client(keys, caps, remote, manifest, cb) {
@@ -48,10 +50,26 @@ function client(keys, caps, remote, cb) {
             console.error(msg)
             throw Error(msg)
           }
-          return reconnect[type](function() {
+          let f = function() {
             fn = traverse(currSSB).get(path)
             return fn.apply(this, Array.from(arguments))
-          })
+          }
+          if (type == 'source') {
+            f = function() {
+              fn = traverse(currSSB).get(path)
+              const source = fn.apply(this, Array.from(arguments))
+              return pull(
+                source,
+                filterError( err=>{
+                  if (doRetry(err)) {
+                    err.pleaseRetryIn = 100
+                  }
+                  return false  // pass error
+                })
+              )
+            }
+          }
+          return reconnect[type](f)
         })
       }
       

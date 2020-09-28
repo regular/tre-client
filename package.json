@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "multicb": "^1.2.2",
+    "pull-catch": "^1.0.1",
     "pull-reconnect": "git://github.com/regular/pull-reconnect-1.git",
     "ssb-client": "^4.9.0",
     "traverse": "^0.6.6",
