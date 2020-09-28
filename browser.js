@@ -1,4 +1,5 @@
 const ssbClient = require('ssb-client')
+const pull = require('pull-stream')
 const multicb = require('multicb')
 const Reconnect = require('pull-reconnect')
 const wrapAPI = require('wrap-muxrpc-api')
