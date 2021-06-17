@@ -1,6 +1,6 @@
 {
   "name": "tre-client",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "description": "ssb-client for tre (browser client and sbot plugin)",
   "main": "index.js",
   "browser": "browser.js",
